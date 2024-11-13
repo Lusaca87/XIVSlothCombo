@@ -1,6 +1,7 @@
 using System.Linq;
 using Dalamud.Game.ClientState.JobGauge.Types;
 using ECommons.DalamudServices;
+using XIVSlothCombo.Combos.JobHelpers;
 using XIVSlothCombo.Combos.PvE.Content;
 using XIVSlothCombo.CustomComboNS;
 using XIVSlothCombo.CustomComboNS.Functions;
@@ -319,6 +320,7 @@ internal class MCH
     internal class MCH_ST_AdvancedMode : CustomCombo
     {
         internal static MCHOpenerLogic MCHOpener = new();
+        internal static MCHHelpers90.MCHOpenerLogic90 MCHOpener90 = new();
 
         protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MCH_ST_AdvancedMode;
 
@@ -364,8 +366,16 @@ internal class MCH
 
                 // Opener
                 if (IsEnabled(CustomComboPreset.MCH_ST_Adv_Opener))
-                    if (MCHOpener.DoFullOpener(ref actionID))
-                        return actionID;
+                    if (LevelChecked(FullMetalField))
+                    {
+                        if (MCHOpener.DoFullOpener(ref actionID))
+                            return actionID;
+                    }else if (!LevelChecked(DoubleCheck))
+                    {
+                        byte opener = 0; // = 0 balance opener - 1 = early tools 
+                        if (MCHOpener90.DoFullOpener(ref actionID, ref opener))
+                            return actionID;
+                    }
 
                 // Interrupt
                 if (IsEnabled(CustomComboPreset.MCH_ST_Adv_Interrupt) && interruptReady)
