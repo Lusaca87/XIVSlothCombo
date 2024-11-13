@@ -372,7 +372,7 @@ internal class MCH
                             return actionID;
                     }else if (!LevelChecked(DoubleCheck))
                     {
-                        byte opener = 0; // = 0 balance opener - 1 = early tools 
+                        byte opener = 1; // = 0 balance opener - 1 = early tools 
                         if (MCHOpener90.DoFullOpener(ref actionID, ref opener))
                             return actionID;
                     }
